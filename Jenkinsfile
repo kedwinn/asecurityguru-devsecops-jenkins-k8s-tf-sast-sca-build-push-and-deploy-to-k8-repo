@@ -30,8 +30,8 @@ pipeline {
 
 	stage('Push') {
             steps {
-               withDockerRegistry([credentialsID: 'ecr:eu-west-2:aws-credentials', url: 'https://655140803907.dkr.ecr.eu-west-2.amazonaws.com']) {
-                    sh "docker push 655140803907.dkr.ecr.eu-west-2.amazonaws.com/javawebapp:latest"
+               docker.withRegistry('https://655140803907.dkr.ecr.eu-west-2.amazonaws.com', 'ecr:us-west-2:aws-credentials') {
+                    app.push("latest")
                     }
                 }
             }
