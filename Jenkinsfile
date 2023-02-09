@@ -6,13 +6,13 @@ pipeline {
    stages{
     stage('CompileandRunSonarAnalysis') {
             steps {	
-		sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=buggywebappp -Dsonar.organization=buggywebappp -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=538b1ac1e56aa9eac4d520afcbb419f87661673f'
+		sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=testwebjavaapp -Dsonar.organization=testwebjavaapp -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=02e5ef16bc8a3f0bf2ff7854f15a14f3a3f7fd98'
 			}
     }
 
 	stage('RunSCAAnalysisUsingSnyk') {
             steps {		
-				withCredentials([string(credentialsId: '36aab1cb-2a61-4e61-95d3-c1ff40847cec', variable: 'SNYK_TOKEN')]) {
+				withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]) {
 					sh 'mvn snyk:test -fn'
 				}
 			}
@@ -31,7 +31,7 @@ pipeline {
 	stage('Push') {
             steps {
                 script{
-                    docker.withRegistry('https://145988340565.dkr.ecr.us-west-2.amazonaws.com', 'ecr:us-west-2:aws-credentials') {
+                    docker.withRegistry('https://655140803907.dkr.ecr.eu-west-2.amazonaws.com/javawebapp', 'ecr:us-west-2:aws-credentials') {
                     app.push("latest")
                     }
                 }
